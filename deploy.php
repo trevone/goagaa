@@ -49,15 +49,15 @@ task('env:setup', function () {
 })->desc('Environment setup');
 
 task('environment', [
-  'env:upload',
+  'env:upload', 
   'env:setup'
 ])->desc('Environment setup');
 
 task('build', function () {
     cd('{{release_path}}');
     //run('export NODE_OPTIONS=--max-old-space-size=32768');
-    run('npm install');
-    run('npm run build'); 
+    // run('npm install');
+    // run('npm run build'); 
 })->desc('Build assets');
 
 // task('queue', function () {
