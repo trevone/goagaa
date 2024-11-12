@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\Models\Campaign;
+use App\Jobs\FetchWorldNews;
+use Illuminate\Console\Command;
+
+class DispatchJobChains extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'app:dispatch-job-chains';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
+ 
+
+    /**
+     * Execute the console command.
+     */
+    public function handle()
+    {
+        $campaigns = Campaign::all();
+
+        foreach($campaigns as $campaign){
+            echo $campaign->name;
+            dispatch(new FetchWorldNews($campaign));
+        }
+    }
+}
