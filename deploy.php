@@ -14,25 +14,25 @@ add('writable_dirs', []);
 
 // Hosts
 
-host('goagaa')
-    ->setHostname('144.126.227.214')
+host('goayaa')
+    ->setHostname('46.101.21.158')
     ->setRemoteUser('deployer')
-    ->set('deploy_path', '~/goagaa')
+    ->set('deploy_path', '~/goayaa')
     ->set('keep_releases', 3)
-    ->set('env_version', '.env.goagaa')
+    ->set('env_version', '.env.goayaa')
     ->set('branch', 'master')
     ->set('env_contents', function () {
         // return 'trt';
-        return file_get_contents('.env.goagaa');
+        return file_get_contents('.env.goayaa');
     })
     // for provisioning
-    ->set('sudo_password', 'gbQ+P?^y52Tgif.f')
+    ->set('sudo_password', 'qKV.!SKzEiN8SRn')
     ->set('domain', 'goayaa.com')
     ->set('public_path', 'public')
     ->set('php_version', '8.1')
     ->set('db_type', 'mariadb')
     ->set('db_user', 'deployer')
-    ->set('db_name', 'thegoagaa')
+    ->set('db_name', 'thegoayaa')
     ->set('db_password', 'woodburn')
     // end of provisioning
     ;
@@ -55,9 +55,9 @@ task('environment', [
 
 task('build', function () {
     cd('{{release_path}}');
-    run('export NODE_OPTIONS=--max-old-space-size=32768');
-    run('npm install');
-    run('npm run build'); 
+    //run('export NODE_OPTIONS=--max-old-space-size=32768');
+    run('/home/deployer/.nvm/versions/node/v22.11.0/bin/npm install');
+    run('/home/deployer/.nvm/versions/node/v22.11.0/bin/npm run build'); 
 })->desc('Build assets');
 
 task('queue', function () {
