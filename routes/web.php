@@ -18,14 +18,14 @@ use Illuminate\Foundation\Application;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Home', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
 Route::get('/fb', function () {
     $fb = new Facebook([
         'app_id' => '1497024704346160',
