@@ -56,21 +56,21 @@ task('environment', [
 task('build', function () {
     cd('{{release_path}}');
     //run('export NODE_OPTIONS=--max-old-space-size=32768');
-    run('/home/deployer/.nvm/versions/node/v22.11.0/bin/npm install');
-    run('/home/deployer/.nvm/versions/node/v22.11.0/bin/npm run build'); 
+    run('npm install');
+    run('npm run build'); 
 })->desc('Build assets');
 
-task('queue', function () {
-    cd('{{release_path}}'); 
-    run('php artisan queue:restart'); 
-})->desc('Reset queues');
+// task('queue', function () {
+//     cd('{{release_path}}'); 
+//     run('php artisan queue:restart'); 
+// })->desc('Reset queues');
 
 // Hooks
 
 before('deploy:vendors', 'environment');
 after('deploy:vendors', 'build');
 after('deploy:failed', 'deploy:unlock');
-after('artisan:migrate', 'queue');
+//after('artisan:migrate', 'queue');
 //task('artisan:view:cache')->disable();
 
 
