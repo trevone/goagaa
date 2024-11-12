@@ -18,6 +18,6 @@ use App\Http\Controllers\Admin\CampaignController;
 
 Route::get('/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
-    })->name('dashboard');
+    })->name('admin.dashboard');
  
 Route::resource('/campaigns', CampaignController::class, ['as' => 'admin']); 
