@@ -4,12 +4,8 @@ namespace Deployer;
 require 'recipe/laravel.php';
 
 // Config
-
-// root password prod
-// 99DfBcj8gypXFtLD
-// root password wsh
-// dGJYvH7dg5sgJ8
-set('repository', 'git@bitbucket.org:edukudu2023/wsh3.git');
+ 
+set('repository', 'git@github.com:trevone/goagaa.git');
 set('ssh_multiplexing', false);
 
 add('shared_files', []);
@@ -31,7 +27,7 @@ host('goagaa')
     })
     // for provisioning
     ->set('sudo_password', 'gbQ+P?^y52Tgif.f')
-    ->set('domain', 'goagaa.com')
+    ->set('domain', 'goayaa.com')
     ->set('public_path', 'public')
     ->set('php_version', '8.1')
     ->set('db_type', 'mariadb')

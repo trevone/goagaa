@@ -1,8 +1,8 @@
 <script setup>
 import FormFields from './FormFields.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import Save from '@/Components/buttons/SaveForm.vue';
-import Back from '@/Components/buttons/Back.vue';
+// import Save from '@/Components/buttons/SaveForm.vue';
+// import Back from '@/Components/buttons/Back.vue';
 
 const props = defineProps({
   errors: Object,

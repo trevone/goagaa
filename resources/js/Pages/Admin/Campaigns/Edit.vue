@@ -1,9 +1,9 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
-import FormFields from './FormFields.vue';
-import Save from '@/Components/buttons/SaveForm.vue';
-import Delete from '@/Components/buttons/DeleteAsset.vue';
-import BackCancel from '@/Components/buttons/BackCancel.vue';
+// import FormFields from './FormFields.vue';
+// import Save from '@/Components/buttons/SaveForm.vue';
+// import Delete from '@/Components/buttons/DeleteAsset.vue';
+// import BackCancel from '@/Components/buttons/BackCancel.vue';
 
 const props = defineProps({
   subject: Object,
