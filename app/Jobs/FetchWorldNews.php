@@ -24,7 +24,7 @@ class FetchWorldNews implements ShouldQueue
     public function __construct(Campaign $campaign)
     {
         $this->campaign = $campaign;
-        $this->limit = 3;
+        $this->limit = 1;
         \Log::debug('starting job: ' . $this->campaign->prompt);
     }
 
