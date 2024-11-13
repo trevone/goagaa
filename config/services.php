@@ -35,5 +35,14 @@ return [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => env('FACEBOOK_REDIRECT_URI'),
+        'access_token' => env('FACEBOOK_ACCESS_TOKEN'),
     ],
+
+    'worldnews' => [
+        'api_key' => env('WORLD_NEWS_API_KEY'), 
+    ],
+
+    'aiml' => [
+        'api_key' => env('AIML_API_KEY')
+    ]
 ];

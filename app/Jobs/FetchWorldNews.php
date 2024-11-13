@@ -45,25 +45,26 @@ class FetchWorldNews implements ShouldQueue
             'music show',
             'travel destination', 
         ];
+        
         $rand = rand(0,7);
-        $search = urlencode($prompts[$rand]);
-
+        $search = urlencode($prompts[$rand]); 
 
         $today = Carbon::now()->format('Y-m-d');
-        $raw_response = $guzzle->get('/search-news?text='.$search.'&earliest-publish-date='.$today.'&language=en&number='.$this->limit, [
+        $raw_response = $guzzle->get(
+                '/search-news?text='.$search
+                .'&earliest-publish-date='.$today
+                .'&language=en&number='.$this->limit, 
+        [
             'headers' => [ 
-                'x-api-key' => '08abbd6f105247b4a47e93133b642a32', 
+                'x-api-key' => config('services.worldnews.api_key'), 
                 'Content-Type' => 'application/json'
             ], 
         ]);
 
-        $response = json_decode($raw_response->getBody()->getContents()); 
-        \Log::debug('Found: ' . count($response->news));
+        $response = json_decode($raw_response->getBody()->getContents());  
 
-        foreach($response->news as $article){
-         
-             \Log::debug($article->title);
-             dispatch(new FetchAimlResult($article));
+        foreach($response->news as $article){  
+            dispatch(new FetchAimlResult($article));
         }
     }
 }

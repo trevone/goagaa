@@ -36,7 +36,7 @@ class FetchAimlResult implements ShouldQueue
         //$string = str_replace(array("\n","\r"), '', $article->text);
  
         $text .= $this->article->title;
-        \Log::debug($text);
+        //\Log::debug($text);
 
         $data = (object) [
             "model" => "gpt-4o",
@@ -53,7 +53,7 @@ class FetchAimlResult implements ShouldQueue
         try {
             $raw_response = $guzzle->post('/chat/completions', [
                 'headers' => [ 
-                    'Authorization' => 'Bearer b135f89da42847e78bebcb7393e6a6cc',
+                    'Authorization' => 'Bearer ' . config('services.aiml.api_key'),
                     'Content-Type' => 'application/json'
                 ],
                 'body' => json_encode($data),
@@ -67,7 +67,7 @@ class FetchAimlResult implements ShouldQueue
             $clean_json = json_decode(trim($clean));
             //echo $res_obj->choices[0]->message->content;
             if(isset($clean_json->text)){
-                \Log::debug($clean_json->text);
+                //\Log::debug($clean_json->text);
                 dispatch(new PostFacebook($clean_json->text));
             }
             
