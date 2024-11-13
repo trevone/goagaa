@@ -21,8 +21,8 @@ class FacebookController extends Controller
             $finduser = User::where('facebook_id', $user->id)->first();
 
             if ($finduser) {
-                Auth::login($finduser);
-                return redirect()->intended('dashboard');
+                //Auth::login($finduser);
+                //return redirect()->intended('dashboard');
             } else {
                 $newUser = User::create([
                     'name' => $user->name,
@@ -31,8 +31,8 @@ class FacebookController extends Controller
                     'password' => encrypt('123456dummy')
                 ]);
 
-                Auth::login($newUser);
-                return redirect()->intended('dashboard');
+                //Auth::login($newUser);
+                //return redirect()->intended('dashboard');
             }
         } catch (\Exception $e) {
             dd($e->getMessage());
