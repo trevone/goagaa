@@ -34,7 +34,17 @@ class FetchWorldNews implements ShouldQueue
     public function handle(): void
     {
         $guzzle = new Client(['base_uri' => 'https://api.worldnewsapi.com']);
-        $search = urlencode($this->campaign->prompt);
+        
+        $prompts = [
+            'london police',
+            'social media',
+            'online trends',
+            'sports update'
+        ];
+        $rand = rand(0,3);
+        $search = urlencode($prompts[$rand]);
+
+
         $today = Carbon::now()->format('Y-m-d');
         $raw_response = $guzzle->get('/search-news?text='.$search.'&earliest-publish-date='.$today.'&language=en&number='.$this->limit, [
             'headers' => [ 
