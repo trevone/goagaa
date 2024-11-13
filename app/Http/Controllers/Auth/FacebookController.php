@@ -36,7 +36,7 @@ class FacebookController extends Controller
             // }
 
             $user = Socialite::driver('facebook')->user();
- 
+            dd($user);
             // OAuth 2.0 providers...
             $token = $user->token;
             $refreshToken = $user->refreshToken;
