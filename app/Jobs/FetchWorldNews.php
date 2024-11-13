@@ -39,9 +39,13 @@ class FetchWorldNews implements ShouldQueue
             'london police',
             'social media',
             'online trends',
-            'sports update'
+            'sports headlines',
+            'fitness routine',
+            'beauty products',
+            'music show',
+            'travel destination', 
         ];
-        $rand = rand(0,3);
+        $rand = rand(0,7);
         $search = urlencode($prompts[$rand]);
 
 
