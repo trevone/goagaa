@@ -35,7 +35,7 @@ class FacebookController extends Controller
             //     //return redirect()->intended('dashboard');
             // }
 
-            $user = Socialite::driver('github')->user();
+            $user = Socialite::driver('facebook')->user();
  
             // OAuth 2.0 providers...
             $token = $user->token;
