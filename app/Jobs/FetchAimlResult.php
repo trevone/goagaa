@@ -61,8 +61,8 @@ class FetchAimlResult implements ShouldQueue
 
             $response = $raw_response->getBody()->getContents();
             $res_obj = json_decode($response);
-            $clean = str_replace('```json','',$res_obj->choices[0]->message->content);
-            $clean = str_replace('```','',$clean);
+            $clean = str_replace('```json','', $res_obj->choices[0]->message->content);
+            $clean = str_replace('```','', $clean);
        
             $clean_json = json_decode(trim($clean));
             //echo $res_obj->choices[0]->message->content;

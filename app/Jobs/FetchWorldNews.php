@@ -25,7 +25,6 @@ class FetchWorldNews implements ShouldQueue
     {
         $this->campaign = $campaign;
         $this->limit = 1;
-        \Log::debug('starting job: ' . $this->campaign->prompt);
     }
 
     /**
@@ -45,7 +44,7 @@ class FetchWorldNews implements ShouldQueue
             'music show',
             'travel destination', 
         ];
-        
+
         $rand = rand(0,7);
         $search = urlencode($prompts[$rand]); 
 
