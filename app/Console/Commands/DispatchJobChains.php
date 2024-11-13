@@ -30,8 +30,7 @@ class DispatchJobChains extends Command
     {
         $campaigns = Campaign::all();
 
-        foreach($campaigns as $campaign){
-            echo $campaign->name;
+        foreach($campaigns as $campaign){ 
             dispatch(new FetchWorldNews($campaign));
         }
     }

@@ -39,3 +39,61 @@ Route::middleware([
  
 Route::get('login/facebook', [FacebookController::class, 'redirectToFacebook'])->name('login.facebook');
 Route::get('login/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
+
+
+Route::get('/exchange-longlived', function () {
+    //from graph explorer
+    //$access_token = "EAAIHTtbEnHkBO8rwrqyjfj4qoJASitSYIyOtQ35s9b4hB9aixOPZBv1ghHcz4J2ZBK9tXaz0R4lJZCAvIZCZAWfvTZCfrMJRIjzOe9IA5KZCzSzWFey04CljCV8PlF3ogCEdOQT67xM8TWYB7q9lCMJXXmakwZCUtrjltlZBbbitqNDRsZCymEusaiS3Yp4CbNyIBiLNZAm1MEWXUvOkKOF3nqKzVOH3Ri4ZBGHL";
+    $access_token = "EAAIHTtbEnHkBO4i0kWPjZAB3r5aukQoXouj1R0D82aTd1ZCrhSZCUJiTD64kQwdA3iENhCOjLiGXcdlhEHTS484VwnSrfhoQk4V2ZAkAbAwrFmZBxeGWnnPr7JrCPfOusLA8UCxn6nGqrrjp27Kxk59x0PtesswbDeCbppiUOCDaDEdHPbONULOzZADcIVL47ZCHyiggZAGufgZCKyjxI0wWDtf2Ru2lNyRnz";
+
+    $client = new GuzzleHttp\Client(['base_uri' => 'https://graph.facebook.com/v21.0/']);
+    // Send a request to https://foo.com/api/test 
+
+    try { 
+        $response = $client->request('GET', '/oauth/access_token', [
+            'query' => [
+                'fb_exchange_token' => $access_token,
+                'grant_type' => "fb_exchange_token",
+                'client_id' => '570985145474169',
+                'client_secret' => '506cec226ce6d4a8bfb82a74da405b11',
+            ]
+        ]);
+        $response_json = json_decode( $response->getBody());
+
+        $long_lived_access_token = $response_json->access_token;
+        echo $long_lived_access_token;
+
+        // $response = $client->request('POST', '488087137720800/feed', [
+        //     'query' => [
+        //         'access_token' => $long_lived_access_token,
+        //         'message' => "long lived token",
+        //         'published' => true
+        //     ]
+        // ]);
+        // $response_body = (string)$response->getBody();
+         
+    } catch (\GuzzleHttp\Exception\RequestException $ex) {
+        echo $ex->getResponse()->getBody()->getContents() ;
+    }
+    /*
+    try { 
+        $response = $client->request('POST', '488087137720800/feed', [
+            'query' => [
+                'access_token' => $access_token,
+                'message' => "testing the graph api",
+                'published' => true
+            ]
+        ]);
+        $response_body = (string)$response->getBody();
+        var_dump($response_body);
+    } catch (\GuzzleHttp\Exception\RequestException $ex) {
+        echo $ex->getResponse()->getBody()->getContents() ;
+    }*/
+   
+
+    // Read Response
+    
+});
+
+//https://graph.facebook.com/v21.0/user_id/accounts?access_token=user_access_token
+//EAAIHTtbEnHkBO2s9mEHqhdZBZAy2ZAwTZAQ30QgLZBslC2YUCidhTiCvAQn5ZBU5ZCqcT4xZAZAo3IoE69dlwGiUIRuKCsBVoZBdy7iFiOS5FPTXXmXgBcTJkc51zjK8lQhgdC4JbD2TL5ksd8uYFBNUHvC9aSj8yuNPvsB7lPc1e6XIVk3tsnmq2VPYtoTE4adm1I4k6GD6otiRWQKPUYt83VOFZAxCQZDZD

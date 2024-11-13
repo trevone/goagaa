@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use GuzzleHttp\Client;
 use App\Models\Content;
+use App\Jobs\PostFacebook;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -31,7 +32,7 @@ class FetchAimlResult implements ShouldQueue
     {
         $guzzle = new Client(['base_uri' => 'https://api.aimlapi.com']);
 
-        $text = "Can you rewrite article on this and make sound exciting and provide format in json with title and text only: ";
+        $text = "Can you rewrite article on this and make sound exciting and provide format in json only no preamble with title and text only: ";
         //$string = str_replace(array("\n","\r"), '', $article->text);
  
         $text .= $this->article->title;
@@ -62,14 +63,21 @@ class FetchAimlResult implements ShouldQueue
             $res_obj = json_decode($response);
             $clean = str_replace('```json','',$res_obj->choices[0]->message->content);
             $clean = str_replace('```','',$clean);
-            $clean_json = json_decode($clean);
+       
+            $clean_json = json_decode(trim($clean));
             //echo $res_obj->choices[0]->message->content;
-
-            $content = new Content();
-            $content->fill($clean_json);
-            $content->store();
+            if(isset($clean_json->text)){
+                \Log::debug($clean_json->text);
+                dispatch(new PostFacebook($clean_json->text));
+            }
             
-            \Log::debug($clean_json->text);
+            // $content = new Content();
+            // $content->fill($clean_json);
+            // $content->store();
+            
+            
+
+            //dispatch(new PostFacebook($clean_json->text));
         } catch (\GuzzleHttp\Exception\RequestException $ex) {
             echo $ex->getResponse()->getBody()->getContents() ;
         }
