@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Content extends BaseModel
+class Platform extends BaseModel
 {
   use HasFactory;  
 
@@ -21,12 +21,12 @@ class Content extends BaseModel
   ];
 
   public const ATTRIBUTES = [
-    'title',
-    'text',
+    'name',
+    'status',
   ];
   public const BOOL_ATTRIBUTES = [];
   public const JSON_ATTRIBUTES = [
- 
+    'data'
   ];
   public const FILTER_FIELDS = 'coalesce(title, "")' 
     .', " ", coalesce(text, "")';
@@ -37,7 +37,7 @@ class Content extends BaseModel
    * @var array
    */
   protected $casts = [
- 
+    'data' => 'json'
   ];
 
  

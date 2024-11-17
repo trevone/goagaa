@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('platforms', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('base_url');
-            $table->string('endpoint');
+            $table->string('name'); 
+            $table->jsonb('data')->nullable(); 
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }

@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('prompt');
+            ///$table->text('prompt');
+            $table->json('data')->nullable();
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaign');
+        Schema::dropIfExists('campaigns');
     }
 };

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Subject;
+namespace App\Http\Resources\Process;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
-class SubjectSelectOptions extends JsonResource
+class ProcessEdit extends JsonResource
 {
   /**
    * Transform the resource into an array.
@@ -16,9 +17,8 @@ class SubjectSelectOptions extends JsonResource
   {
     return [
       'id' => $this->id,
-      'title' => $this->title,
-      'slug' => $this->slug,
-      'disabled' => $this->disabled ?? false,
+      'class' => $this->class,
+      'data' => $this->data,
     ];
   }
 }

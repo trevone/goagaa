@@ -21,15 +21,13 @@ class Campaign extends BaseModel
   ];
 
   public const ATTRIBUTES = [
-    'name',
-    'prompt',
+    'name', 
   ];
   public const BOOL_ATTRIBUTES = [];
   public const JSON_ATTRIBUTES = [
  
   ];
-  public const FILTER_FIELDS = 'coalesce(name, "")' 
-    .', " ", coalesce(prompt, "")';
+  public const FILTER_FIELDS = 'coalesce(name, "")'  ;
 
   /**
    * The attributes that should be cast.
@@ -44,8 +42,10 @@ class Campaign extends BaseModel
   //
   // eloquent relationships
   //
+   
+  public function connectors() { return $this->hasMany( Connector::class ); }
+  
  
-
   //
   // end of eloquent relationships
   //

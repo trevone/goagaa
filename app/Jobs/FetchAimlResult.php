@@ -68,16 +68,23 @@ class FetchAimlResult implements ShouldQueue
             //echo $res_obj->choices[0]->message->content;
             if(isset($clean_json->text)){
                 //\Log::debug($clean_json->text);
-                dispatch(new PostFacebook($clean_json->text));
-            }
-            
-            // $content = new Content();
-            // $content->fill($clean_json);
-            // $content->store();
-            
-            
+ 
 
-            //dispatch(new PostFacebook($clean_json->text));
+                // $data = [
+                //     'worldnews_id' => $this->article->id,
+                //     'title' => $this->article->title, 
+                //     'text' => $this->article->text,
+                //     'summary' => $this->article->summary,
+                //     'url' => $this->article->url,
+                //     'image' => $this->article->image,
+                //     'video' => $this->article->video,
+                //     'publish_date' => $this->article->publish_date
+                // ];
+                // $content = new Content();
+                // $content->fill($data);
+                // $content->save();
+                dispatch(new PostFacebook($clean_json->text));
+            } 
         } catch (\GuzzleHttp\Exception\RequestException $ex) {
             echo $ex->getResponse()->getBody()->getContents() ;
         }

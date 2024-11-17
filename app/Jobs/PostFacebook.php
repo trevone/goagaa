@@ -2,7 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Models\Post;
 use GuzzleHttp\Client;
+use App\Models\Process;
+use App\Models\Connector;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -13,14 +16,18 @@ class PostFacebook implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $text;
+    protected $connector;
+    protected $post;
+    protected $input;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($text)
+    public function __construct(Connector $connector, $post, $input = null)
     {
-        $this->text = $text;
+        $this->connector = $connector;
+        $this->post = $post;
+        $this->input = $input;
     }
 
     /**
@@ -28,24 +35,33 @@ class PostFacebook implements ShouldQueue
      */
     public function handle(): void
     {
+        if(
+            is_null($this->post['text']) 
+            || empty($this->post['text']) 
+            || !isset($this->post['text'])
+        ){
+            \Log::debug('not text to post');
+            return;
+        }
         $access_token = config('services.facebook.access_token');
 
-        $client = new Client(['base_uri' => 'https://graph.facebook.com/v21.0/']);
-        // Send a request to https://foo.com/api/test 
-
-        try {  
-
-            $long_lived_access_token = $access_token;
-
-            $response = $client->request('POST', '488087137720800/feed', [
+        $client = new Client(['base_uri' => config('services.facebook.base_uri')]); 
+        $process = Process::find($this->connector->process_id);
+        $endpoint = data_get($process, 'data.page_id') . '/feed';
+        try {    
+            $response = $client->request('POST', $endpoint, [
                 'query' => [
-                    'access_token' => $long_lived_access_token,
-                    'message' => $this->text,
+                    'access_token' => $access_token,
+                    'message' => $this->post['text'],
                     'published' => true
                 ]
             ]);
-            $response_body = (string) $response->getBody(); 
-            
+            $response_body = (string) $response->getBody();  
+            $post = new Post();
+            $post->fill(
+                $this->post
+            );
+            $post->save(); 
         } catch (\GuzzleHttp\Exception\RequestException $ex) {
             echo $ex->getResponse()->getBody()->getContents() ;
         }

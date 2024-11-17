@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('content', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('text');
+        Schema::create('processes', function (Blueprint $table) {
+            $table->id();   
+            $table->string('class');
+            $table->jsonb('data')->nullable();
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('content');
+        Schema::dropIfExists('processes');
     }
 };

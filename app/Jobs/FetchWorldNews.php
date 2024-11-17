@@ -24,7 +24,7 @@ class FetchWorldNews implements ShouldQueue
     public function __construct(Campaign $campaign)
     {
         $this->campaign = $campaign;
-        $this->limit = 1;
+        $this->limit = 10;
     }
 
     /**
@@ -63,7 +63,12 @@ class FetchWorldNews implements ShouldQueue
         $response = json_decode($raw_response->getBody()->getContents());  
 
         foreach($response->news as $article){  
-            dispatch(new FetchAimlResult($article));
+            $content = Content::where('worldnews_id', $article->id)->get();
+            \Log::debug($content->title);
+            if(!$content){
+                dispatch(new FetchAimlResult($article));
+                break;
+            } 
         }
     }
 }

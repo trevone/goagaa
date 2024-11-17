@@ -43,13 +43,13 @@ class CampaignCollection extends ResourceCollection
           'type' => 'numeric',
         ], 
         [
-          'label' => 'Created',
-          'property' => 'created_at',
+          'label' => 'Name',
+          'property' => 'name',
           'sortable' => true,
           'align' => 'left',
           'editable' => false,
-          'type' => 'date',
-        ],
+          'type' => 'string',
+        ],    
       ]
     ];
   }
