@@ -31,8 +31,8 @@ const create = ref(false)
 const aiml_response = ref('')
 const aiml_output = ref([])
 
-const reactive_chain = reactive(props.chain[0])
-for(let i in props.chain[0]){ 
+const reactive_chain = reactive(props.chain)
+for(let i in reactive_chain){ 
   reactive_chain[i].log = ""
 }
 
@@ -97,7 +97,7 @@ const dettachConnectorInformation = (id) => {
                     Add Process
                 </a>
                 |
-                <Link v-if="!create" @click.prevent="dettachConnectorInformation(parent_id)" :href="route('admin.connectors.destroy', parent_id)" class="inline-flex items-center font-semibold text-indigo-700">
+                <Link v-if="!create && parent_id" @click.prevent="dettachConnectorInformation(parent_id)" :href="route('admin.connectors.destroy', parent_id)" class="inline-flex items-center font-semibold text-indigo-700">
                     Delete Process
                 </Link>
             </p>

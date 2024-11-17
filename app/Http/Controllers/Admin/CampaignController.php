@@ -138,7 +138,7 @@ class CampaignController extends Controller
         $c = $c->output_connector;
       } while ($c); 
     }
-    
+    $chain = data_get($chain,'0',[]);
     return Inertia::render('Admin/Campaigns/Edit', compact('campaign', 'options', 'chain', 'parent_id'));
   }
 
