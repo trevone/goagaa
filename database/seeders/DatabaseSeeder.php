@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('processes')->insert([
             'class' => 'PostFacebook',
-            'data' => '{"page_id": "488087137720801", "access_token": "EAAIHTtbEnHkBO1Id3t1GFJPVsOepKuQ5delPniuCAPXCH3uAuNHo6tMjE5DmKSK3jYgkhE8fHDVZC1i4KlVbN6gsAEnjJBuZAdCYxAmbYXEZAbtHJKz5kaufMa6fbCqCucTBgEdsXwmzKQgJMHEOuhmrw7CRhdYJiZAY5mzzgXZBF5bS8YwsFFGXGGbXQLAg7uy8NujMt"}', 
+            'data' => '{"page_id": "488087137720800", "access_token": "EAAIHTtbEnHkBO1Id3t1GFJPVsOepKuQ5delPniuCAPXCH3uAuNHo6tMjE5DmKSK3jYgkhE8fHDVZC1i4KlVbN6gsAEnjJBuZAdCYxAmbYXEZAbtHJKz5kaufMa6fbCqCucTBgEdsXwmzKQgJMHEOuhmrw7CRhdYJiZAY5mzzgXZBF5bS8YwsFFGXGGbXQLAg7uy8NujMt"}', 
         ]);
     }
 }
