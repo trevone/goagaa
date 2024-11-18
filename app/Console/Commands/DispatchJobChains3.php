@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Post;
-use App\Models\Campaign; 
-use App\Events\LogUpdated;
+use App\Models\Campaign;
+use App\Jobs\FetchWorldNews;
 use Illuminate\Console\Command;
 
 class DispatchJobChains extends Command
@@ -29,12 +28,10 @@ class DispatchJobChains extends Command
      */
     public function handle()
     {
-        $campaigns = Campaign::all(); 
-        foreach($campaigns as $campaign){   
-            foreach($campaign->connectors as $connector){ 
-                $class = 'App\\Jobs\\' . $connector->process->class;   
-                $class::dispatch($connector, [], ['campaign_id' => $campaign->id])->onQueue("default");
-            } 
+        $campaigns = Campaign::all();
+
+        foreach($campaigns as $campaign){ 
+            dispatch(new FetchWorldNews($campaign));
         }
     }
 }
