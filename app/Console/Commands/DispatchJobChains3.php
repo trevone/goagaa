@@ -13,7 +13,7 @@ class DispatchJobChains3 extends Command
      *
      * @var string
      */
-    protected $signature = 'app:dispatch-job-chains';
+    protected $signature = 'app:dispatch-job-chains3';
 
     /**
      * The console command description.
