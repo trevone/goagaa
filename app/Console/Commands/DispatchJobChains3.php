@@ -6,7 +6,7 @@ use App\Models\Campaign;
 use App\Jobs\FetchWorldNews;
 use Illuminate\Console\Command;
 
-class DispatchJobChains extends Command
+class DispatchJobChains3 extends Command
 {
     /**
      * The name and signature of the console command.
