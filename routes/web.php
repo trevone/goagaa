@@ -8,6 +8,9 @@ use GuzzleHttp\Client;
 use App\Models\Campaign;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+ 
+use Coderjerk\BirdElephant\BirdElephant;
+use Smolblog\OAuth2\Client\Provider\Twitter;
 use App\Http\Resources\Campaign\CampaignEdit;
 use App\Http\Controllers\Auth\FacebookController;
 
@@ -40,42 +43,33 @@ Route::middleware([
     })->name('dashboard');
 });
  
-Route::get('login/facebook', [FacebookController::class, 'redirectToFacebook'])->name('login.facebook');
-Route::get('login/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
-Route::get('/test', function () {
-    $campaigns = Campaign::all();
-
-    foreach($campaigns as $campaign){ 
-        
-        $connectors = $campaign->connectors ;
-      
-        foreach($campaign->connectors  as $connector){
-            dd($connector->process);
-            $class = "App\Jobs\{$connector->process->class}";
-
-                $class::dispatch($campaign)->onQueue("default");
-        } 
-    }
+// Route::get('login/facebook', [FacebookController::class, 'redirectToFacebook'])->name('login.facebook');
+// Route::get('login/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
+Route::get('/twitter-test', function () {
+   echo 1;
 });
-Route::get('/broadcast', function() {
-    
-    // New Pusher instance with our config data
-    $pusher = new Pusher(
-        config('broadcasting.connections.pusher.key'),
-        config('broadcasting.connections.pusher.secret'),
-        config('broadcasting.connections.pusher.app_id'),
-        config('broadcasting.connections.pusher.options')
+Route::get('/twitter', function() {
+    $credentials = array(
+        'bearer_token' => 'AAAAAAAAAAAAAAAAAAAAACzXwwEAAAAAbwSmNeHAAe9OKPvacf%2FLIOAmLzk%3D8hWDb4WbBgMYF8JIKCfVUvAzfzzLo7Oa8fwysc5JkI8o0b3Vtn',
+        'consumer_key' => 'lu9vVbXiDbjiRmLrHDu3K5Cej',
+        'consumer_secret' => 'MlBAQ2EWxU8GbRN15zkQIRWL9UOezYn2VlAAwQz5ip20dbTPb7',
+        // if using oAuth 2.0 with PKCE
+       // 'auth_token' => xxxxxx // OAuth 2.0 auth token
+        //if using oAuth 1.0a
+        'token_identifier' => '1856965653002964992-ZcDNaKZCmnyhkPpjd4JsOgIwADlYdc',
+        'token_secret' => '3fk4fTil1lrlaOAzC62CqqjQZSzOP2Tzg4dXaCgKTg8QD',
     );
-        
+    
+    //instantiate the object
+    $twitter = new BirdElephant($credentials);
      
-        
-    // Your data that you would like to send to Pusher
-    $data = ['text' => 'hello world from Laravel 5.34'];
-        
-    // Sending the data to channel: "test_channel" with "my_event" event
-    $pusher->trigger( 'my-channel', 'my-event', $data);
-        
-    return 'ok'; 
+    
+    //tweet something
+    $tweet = (new \Coderjerk\BirdElephant\Compose\Tweet)->text("where are the tweets going?");
+    
+    $twitter->tweets()->tweet($tweet);
+    // Check given state against previously stored one to mitigate CSRF attack
+  
 });
 Route::get('/exchange-longlived', function () {
     //from graph explorer

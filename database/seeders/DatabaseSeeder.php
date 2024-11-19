@@ -32,10 +32,15 @@ class DatabaseSeeder extends Seeder
             'class' => 'ChatCompletions',
             'data' => '{"endpoint": "chat/completions", "user_role_content": "give me a random story", "system_role_content": "you are less than average ai llm and make some funny mistakes"}', 
         ]);
-
+        
         DB::table('processes')->insert([
             'class' => 'PostFacebook',
             'data' => '{"page_id": "488087137720800", "access_token": "EAAIHTtbEnHkBO1Id3t1GFJPVsOepKuQ5delPniuCAPXCH3uAuNHo6tMjE5DmKSK3jYgkhE8fHDVZC1i4KlVbN6gsAEnjJBuZAdCYxAmbYXEZAbtHJKz5kaufMa6fbCqCucTBgEdsXwmzKQgJMHEOuhmrw7CRhdYJiZAY5mzzgXZBF5bS8YwsFFGXGGbXQLAg7uy8NujMt"}', 
+        ]);
+
+        DB::table('processes')->insert([
+            'class' => 'ImagesGenerations',
+            'data' => '{"prompt": "a fluffy dog", "endpoint": "images/generations", "model":"flux/dev"}', 
         ]);
     }
 }
