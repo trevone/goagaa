@@ -85,8 +85,8 @@ class ImagesGenerations implements ShouldQueue
             $this->log($data);
             $response = $raw_response->getBody()->getContents();
             $res_obj = json_decode($response);  
-            $this->output["images"] = $res_obj['images'][0];
-            $this->post['image'] = $res_obj['images'][0];
+            $this->output["images"] = $res_obj->images[0];
+            $this->post['image'] = $res_obj->images[0]->url;
             $this->log(['output'=> $this->output]);
             //LogUpdated::dispatchNow('hello world');
  

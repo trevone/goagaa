@@ -45,18 +45,20 @@ class PostFacebook implements ShouldQueue
         }
 
 
-        $this->post['text'] = $this->post['image'] . " " . $this->post['text'];
+        $this->post['text'] = $this->post['text'];
 
         $access_token = config('services.facebook.access_token');
 
         $client = new Client(['base_uri' => config('services.facebook.base_uri')]); 
         $process = Process::find($this->connector->process_id);
-        $endpoint = data_get($process, 'data.page_id') . '/feed';
+        //$endpoint = data_get($process, 'data.page_id') . '/feed';
+        $endpoint = data_get($process, 'data.page_id') . '/photos';
         try {    
             $response = $client->request('POST', $endpoint, [
                 'query' => [
                     'access_token' => $access_token,
                     'message' => $this->post['text'],
+                    'url' => $this->post['image'],
                     'published' => true
                 ]
             ]);
