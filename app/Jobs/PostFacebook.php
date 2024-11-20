@@ -43,6 +43,10 @@ class PostFacebook implements ShouldQueue
             \Log::debug('not text to post');
             return;
         }
+
+
+        $this->post['text'] = $this->post['image'] . " " . $this->post['text'];
+
         $access_token = config('services.facebook.access_token');
 
         $client = new Client(['base_uri' => config('services.facebook.base_uri')]); 
