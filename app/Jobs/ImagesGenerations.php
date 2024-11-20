@@ -40,21 +40,13 @@ class ImagesGenerations implements ShouldQueue
         $this->tag = $this->connector->id;
         
  
-        if(!isset($this->input['user_role_content'])){
-            $this->input['user_role_content'] = data_get($this->connector, 'data.user_role_content', null);
+        if(!isset($this->input['prompt'])){
+            $this->input['prompt'] = data_get($this->connector, 'data.prompt', null);
         } else {
-            $this->input['user_role_content'] = str_replace( '##output##', 
-                $this->input['user_role_content'], data_get($this->connector, 
-                'data.user_role_content', ''));
-        }
-        if(!isset($this->input['system_role_content'])){
-            $this->input['system_role_content'] = data_get($this->connector, 'data.system_role_content', null);
-        } else {
-            $this->input['system_role_content'] = str_replace( '##output##', 
-                $this->input['system_role_content'], data_get($this->connector, 
-                'data.system_role_content', ''));
-        }
-        $this->input['user_role_content'] .= " - no preamble";
+            $this->input['prompt'] = str_replace( '##output##', 
+                $this->input['prompt'], data_get($this->connector, 
+                'data.prompt', ''));
+        } 
 
         $this->log(['input' => $this->input]);
     }
@@ -77,7 +69,8 @@ class ImagesGenerations implements ShouldQueue
     { 
         $guzzle = new Client(['base_uri' => config('services.aiml.base_uri')]);
         $data = (object) [
-            "prompt" => data_get($this->connector, 'data.prompt', 'fluffy dog'), 
+            //"prompt" => data_get($this->connector, 'data.prompt', 'fluffy dog'), 
+            "prompt" => data_get($this->input, 'prompt', 'fluffy dog'), 
             "model" => data_get($this->connector, 'data.model', 'flux/dev'), 
         ]; 
         $process = Process::find($this->connector->process_id);

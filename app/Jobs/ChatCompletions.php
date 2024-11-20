@@ -119,15 +119,16 @@ class ChatCompletions implements ShouldQueue
             $this->log(['output'=> $this->output]);
             //LogUpdated::dispatchNow('hello world');
  
-            $pusher = new Pusher(
-                config('broadcasting.connections.pusher.key'),
-                config('broadcasting.connections.pusher.secret'),
-                config('broadcasting.connections.pusher.app_id'),
-                config('broadcasting.connections.pusher.options')
-            );
-                 
-            $pusher->trigger('my-channel', 'my-event', ["id" => $this->connector->id, "output" => $content]);
-
+            if(isset($this->input['broadcasting'])){
+                $pusher = new Pusher(
+                    config('broadcasting.connections.pusher.key'),
+                    config('broadcasting.connections.pusher.secret'),
+                    config('broadcasting.connections.pusher.app_id'),
+                    config('broadcasting.connections.pusher.options')
+                ); 
+                $pusher->trigger('my-channel', 'my-event', ["id" => $this->connector->id, "output" => $content]); 
+            }
+            
             if(!isset($this->input['broadcasting']) && !is_null($this->connector->connector_id)){
                 $new_connector = Connector::find($this->connector->connector_id);
                 $class = 'App\\Jobs\\' . $new_connector->process->class;  
