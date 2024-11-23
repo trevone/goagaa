@@ -45,8 +45,9 @@ Route::middleware([
  
 // Route::get('login/facebook', [FacebookController::class, 'redirectToFacebook'])->name('login.facebook');
 // Route::get('login/facebook/callback', [FacebookController::class, 'handleFacebookCallback']);
-Route::get('/twitter-test', function () {
-   echo 1;
+Route::get('/test', function () {
+    $campaign = Campaign::with(['connectors','processes'])->find(1);
+    dd($campaign);
 });
 Route::get('/twitter', function() {
     $credentials = array(

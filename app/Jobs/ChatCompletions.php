@@ -39,24 +39,36 @@ class ChatCompletions implements ShouldQueue
         $this->output = [];
         $this->tag = $this->connector->id;
         
- 
-        if(!isset($this->input['user_role_content'])){
+
+  
+        
+        //if(!isset($this->input['user_role_content'])){
             $this->input['user_role_content'] = data_get($this->connector, 'data.user_role_content', null);
-        } else {
-            $this->input['user_role_content'] = str_replace( '##output##', 
-                $this->input['user_role_content'], data_get($this->connector, 
-                'data.user_role_content', ''));
-        }
-        if(!isset($this->input['system_role_content'])){
+        //} else {
+        //     $this->input['user_role_content'] = str_replace( '##output##', 
+        //         $this->input['user_role_content'], data_get($this->connector, 
+        //         'data.user_role_content', ''));
+        // }
+
+
+
+
+        //if(!isset($this->input['system_role_content'])){
             $this->input['system_role_content'] = data_get($this->connector, 'data.system_role_content', null);
-        } else {
-            $this->input['system_role_content'] = str_replace( '##output##', 
-                $this->input['system_role_content'], data_get($this->connector, 
-                'data.system_role_content', ''));
+        //}  
+
+
+        
+        if(isset($this->input['user_role_content'])){ 
+            if (preg_match('/##(.*?)##/', $this->input['user_role_content'], $matches)) { 
+                $store_var = $matches[1];  
+                $this->input['user_role_content'] = str_replace( '##'.$store_var.'##', 
+                    data_get($this->post, $store_var, ''), $this->input['user_role_content'] ); 
+            }
         }
         $this->input['user_role_content'] .= " - no preamble";
-
-        $this->log(['input' => $this->input]);
+        \Log::debug($this->input['user_role_content']);
+    
     }
  
     /**
@@ -98,7 +110,7 @@ class ChatCompletions implements ShouldQueue
 
         ];
      
-        
+  
         $process = Process::find($this->connector->process_id);
         try {
             $raw_response = $guzzle->post(data_get($process, 'data.endpoint'), [
@@ -109,13 +121,24 @@ class ChatCompletions implements ShouldQueue
                 'body' => json_encode($data),
             ]);
             $this->log($data);
+            
             $response = $raw_response->getBody()->getContents();
             $res_obj = json_decode($response); 
             $content = $res_obj->choices[0]->message->content; 
             $this->output["user_role_content"] = $content;
-            $this->output["system_role_content"] = $this->input["system_role_content"];
-            $this->post['text'] = $content; 
             
+       
+                $store = data_get($this->connector, 'data.store', '');
+              //  $this->output[$store] = $content;
+       
+                
+          
+
+            //$this->output["system_role_content"] = $this->input["system_role_content"];
+            $this->post[$store] = $content; 
+            \Log::debug("store: " . $store);
+
+
             $this->log(['output'=> $this->output]);
             //LogUpdated::dispatchNow('hello world');
  

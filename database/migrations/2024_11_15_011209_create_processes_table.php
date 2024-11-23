@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('processes', function (Blueprint $table) {
             $table->id();   
             $table->string('class');
+            $table->string('type');
             $table->jsonb('data')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();

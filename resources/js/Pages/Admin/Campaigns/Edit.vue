@@ -19,7 +19,8 @@ const props = defineProps({
   fields: Array,
   chain: Array,
   parent_id: Number,
-  flash: Object
+  flash: Object,
+  post_processes: Array
 })
  
 const form = useForm({
@@ -80,7 +81,7 @@ const dettachConnectorInformation = (id) => {
       <div>
           <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
    
-                  <UpdateCampaignForm :campaign="campaign" />
+                  <UpdateCampaignForm :campaign="campaign" :post_processes="post_processes" />
               
                   <div v-for="(link,i) in reactive_chain" :key="link.id">
                     <SectionBorder />

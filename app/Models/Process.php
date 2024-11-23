@@ -46,6 +46,7 @@ class Process extends BaseModel
   //
  
   public function connectors() { return $this->hasMany( Connector::class ); }
+  public function campaigns() { return $this->belongsToMany( Campaign::class ); }
   //
   // end of eloquent relationships
   //

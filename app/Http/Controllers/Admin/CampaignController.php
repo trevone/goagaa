@@ -109,7 +109,8 @@ class CampaignController extends Controller
     */
   public function edit(string $id)
   {
-    $campaign = new CampaignEdit($this->campaignService->setRelations(['connectors.process', 'connectors.output_connector'])->getById($id));
+    $campaign = new CampaignEdit($this->campaignService->setRelations(['processes', 'connectors.process', 'connectors.output_connector'])->getById($id));
+    $post_processes = $this->processService->where('type', 'post')->getAll();
     $options = [];
       
     $processes = Process::all();
@@ -139,7 +140,7 @@ class CampaignController extends Controller
       } while ($c); 
     }
     $chain = data_get($chain,'0',[]);
-    return Inertia::render('Admin/Campaigns/Edit', compact('campaign', 'options', 'chain', 'parent_id'));
+    return Inertia::render('Admin/Campaigns/Edit', compact('campaign', 'options', 'chain', 'parent_id', 'post_processes'));
   }
 
   
@@ -149,11 +150,18 @@ class CampaignController extends Controller
     */
   public function update(CampaignRequest $request, int $id)
   {
-    try {
+     try {
 
       $attr = $request->only($this->attributes); 
       $this->campaignService->update($id, $attr);
-
+      $model = $this->campaignService->getById($id)->get()->first();
+      $sync = [];
+      foreach($request->processes as $process){
+        if($process['checked']){
+          $sync[] = $process['value'];
+        }
+      } 
+       $campaign = $this->campaignService->sync($model, 'processes', $sync);
     } catch (\Exception $exception) {
 
       return redirect()->back()->with($this->error($exception->getMessage()));

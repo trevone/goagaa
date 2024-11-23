@@ -44,7 +44,7 @@ class Campaign extends BaseModel
   //
    
   public function connectors() { return $this->hasMany( Connector::class ); }
-  
+  public function processes() { return $this->belongsToMany( Process::class ); }
  
   //
   // end of eloquent relationships

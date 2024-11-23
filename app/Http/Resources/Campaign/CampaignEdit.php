@@ -19,6 +19,7 @@ class CampaignEdit extends JsonResource
       'id' => $this->id,
       'name' => $this->name,
       'connectors' => $this->connectors,
+      'processes' => $this->processes
     ];
   }
 }

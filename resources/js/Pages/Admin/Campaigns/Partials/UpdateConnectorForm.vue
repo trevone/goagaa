@@ -102,7 +102,7 @@ onMounted(() => {
 
         <template #description>
             Update your Connector Information and Connectors.
-            <p class="mt-4 text-sm">  
+            <div class="mt-4 text-sm">  
                 <a @click.prevent="testRun" href="#" class="inline-flex items-center font-semibold text-indigo-700">
                     Test Run
                 </a> 
@@ -110,7 +110,7 @@ onMounted(() => {
                     <p v-if="processing">processing</p>
                     <p>{{ connector.output }}</p>
                 </div>
-            </p>
+            </div>
         </template>
         
         <template #form>

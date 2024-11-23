@@ -40,14 +40,21 @@ class ImagesGenerations implements ShouldQueue
         $this->tag = $this->connector->id;
         
  
-        if(!isset($this->input['prompt'])){
+        //if(!isset($this->input['prompt'])){
             $this->input['prompt'] = data_get($this->connector, 'data.prompt', null);
-        } else {
-            $this->input['prompt'] = str_replace( '##output##', 
-                $this->input['prompt'], data_get($this->connector, 
-                'data.prompt', ''));
-        } 
-
+        // } else {
+        //     $this->input['prompt'] = str_replace( '##output##', 
+        //         $this->input['prompt'], data_get($this->connector, 
+        //         'data.prompt', ''));
+        // } 
+        if(isset($this->input['prompt'])){ 
+            if (preg_match('/##(.*?)##/', $this->input['prompt'], $matches)) { 
+                $store_var = $matches[1];  
+                $this->input['prompt'] = str_replace( '##'.$store_var.'##', 
+                    data_get($this->post, $store_var, ''), $this->input['prompt'] ); 
+            }
+        }
+        \Log::debug("prompt: ".$this->input['prompt']);
         $this->log(['input' => $this->input]);
     }
  
@@ -84,6 +91,7 @@ class ImagesGenerations implements ShouldQueue
             ]);
             $this->log($data);
             $response = $raw_response->getBody()->getContents();
+            \Log::debug($response);
             $res_obj = json_decode($response);  
             $this->output["images"] = $res_obj->images[0];
             $this->post['image'] = $res_obj->images[0]->url;

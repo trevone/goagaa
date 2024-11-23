@@ -64,9 +64,10 @@ class PostFacebook implements ShouldQueue
             ]);
             $response_body = (string) $response->getBody();  
             $post = new Post();
-            $post->fill(
-                $this->post
-            );
+            $post->fill([
+                "text" => $this->post['text'],
+                "url" => $this->post['image']
+            ]);
             $post->save(); 
         } catch (\GuzzleHttp\Exception\RequestException $ex) {
             echo $ex->getResponse()->getBody()->getContents() ;
