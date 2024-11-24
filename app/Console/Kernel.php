@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('app:dispatch-job-chains')->everySixHours(rand(0, 59));
+        //$schedule->command('app:dispatch-job-chains')->everySixHours(12);
+        $schedule->command('app:dispatch-job-chains')->everyHour(12);
     }
 
     /**
