@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         //$schedule->command('app:dispatch-job-chains')->everySixHours(12);
-        $schedule->command('app:dispatch-job-chains')->everyHour(12);
+        $schedule->command('app:dispatch-job-chains')->hourly();
     }
 
     /**
